@@ -1,4 +1,9 @@
 pipeline {
+  
+  environment {
+    registry = "35.208.178.238:8081/repository/myrepo/"
+    registryCredential = 'nexushub'
+}
   agent {
     kubernetes {
       label 'promo-app'  // all your pods will be named with this prefix, followed by a unique id

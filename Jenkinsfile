@@ -23,7 +23,7 @@ pipeline {
  stage('Code Analysis') {
          steps {
                   script {
-                    sh "${mvnCmd} sonar:sonar -Dsonar.host.url=http://192.168.0.108:30303/ -DskipTests=true"
+                    sh "mvn sonar:sonar -Dsonar.host.url=http://192.168.0.108:30303/ -DskipTests=true"
                   }
                 }
               }

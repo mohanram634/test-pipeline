@@ -18,11 +18,21 @@ pipeline {
         sh "mvn clean package"   
       }
     }
-    stage('Build Docker Image') {
-      steps {
+    
+    
+ stage('Code Analysis') {
+         steps {
+                  script {
+                    sh "${mvnCmd} sonar:sonar -Dsonar.host.url=http://192.168.0.108:30303/ -DskipTests=true"
+                  }
+                }
+              }
+    
+   stage('Build Docker Image') {
+     steps {
         container('docker') {  
           withDockerRegistry(credentialsId: 'nexushub', url: 'http://35.208.178.238:8083/repository/myrepo/') {
-    sh "docker build -t 35.208.178.238:8083/repository/myrepo/promo-app:dev ."  // when we run docker in this step, we're running it via a shell on the docker build-pod container, 
+          sh "docker build -t 35.208.178.238:8083/repository/myrepo/promo-app:dev ."  // when we run docker in this step, we're running it via a shell on the docker build-pod container, 
           sh "docker push 35.208.178.238:8083/repository/myrepo/promo-app:dev"        // which is just connecting to the host docker deaemon
 }
                     
